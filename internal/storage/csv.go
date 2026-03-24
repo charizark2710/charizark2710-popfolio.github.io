@@ -1,13 +1,15 @@
 package storage
 
 import (
+	"embed"
 	"encoding/csv"
 	"io"
-	"os"
 	"strings"
 
 	"popfolio/internal/model"
 )
+
+var DataFS embed.FS
 
 // indexMap builds a map of header name -> column index from a header row
 func indexMap(headers []string) map[string]int {
@@ -26,8 +28,8 @@ func safeGet(record []string, index int) string {
 	return record[index]
 }
 
-func LoadCSVData(filename string) (*model.PortfolioData, error) {
-	file, err := os.Open(filename)
+func LoadCSVData() (*model.PortfolioData, error) {
+	file, err := DataFS.Open("data/portfolio.csv")
 	if err != nil {
 		return nil, err
 	}

@@ -15,8 +15,7 @@ import (
 )
 
 func SetupRoutes(router *gin.Engine) {
-	csvPath := filepath.Join("..", "..", "data", "portfolio.csv")
-	portfolioData, err := storage.LoadCSVData(csvPath)
+	portfolioData, err := storage.LoadCSVData()
 	if err != nil {
 		log.Printf("Error loading portfolio data: %v", err)
 		portfolioData = &model.PortfolioData{
@@ -26,7 +25,7 @@ func SetupRoutes(router *gin.Engine) {
 	}
 
 	router.GET("/", func(c *gin.Context) {
-		portfolioData, err := storage.LoadCSVData(csvPath)
+		portfolioData, err := storage.LoadCSVData()
 		if err != nil {
 			log.Printf("Error loading portfolio data: %v", err)
 			portfolioData = &model.PortfolioData{
